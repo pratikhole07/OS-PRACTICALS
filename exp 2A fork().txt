@@ -1,0 +1,26 @@
+#include<stdio.h> 
+#include<sys/types.h>
+void main()
+{
+pid_t pid; 
+pid=fork(); 
+if(pid>0)
+{
+//wait(10);
+//sleep(10);
+printf("\nthis is the parent process"); 
+printf("\npid or parent is %d",getpid());
+}
+else if(pid==0)
+{
+//wait(10); 
+sleep(10);
+printf("\nthis is the child process"); 
+printf("\npid or child is %d",getpid());
+}
+else
+{
+printf("fork get failed");
+}
+system("ps -l");
+}

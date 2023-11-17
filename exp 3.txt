@@ -1,0 +1,108 @@
+SRTF 
+#include<stdio.h>
+void main()
+{
+int at[10],bt[10],rt[10],completiont,i,smallest;
+int remain=0,n,time;
+float sum_wait,sum_turnaround;
+printf("\n Enter the number of processes=");
+scanf("%d",&n);
+for(i=0;i<n;i++)
+{
+printf("Enter the arrival time for P%d=",i+1);
+scanf("%d",&at[i]);
+printf("Enter the burst time for P%d=",i+1);
+scanf("%d",&bt[i]);
+rt[i]=bt[i];
+}
+printf("Given snapshot of execution is");
+printf("\nProcess|Arrival|Burst");
+for(i=0;i<n;i++)
+{
+printf("\nP[%d]|\t %d|\t %d",i+1,at[i],bt[i]);
+}
+printf("\n\n Process|Turnaround Time|Waiting Time");
+bt[9]=1000;
+for(time=0;remain!=n;time++)
+{
+smallest=9;
+for(i=0;i<n;i++)
+{
+if(bt[i]<bt[smallest] && at[i]<=time &&rt[i])
+{
+smallest=i;
+}
+}
+rt[smallest]--;
+if(rt[smallest]==0)
+{
+remain++;
+completiont=time+1;
+printf("\nP[%d]|\t%d|\t%d",smallest+1,completiont-at
+[smallest],completiont-bt[smallest]-at[smallest]);
+sum_wait=sum_wait+completiont-bt[smallest]-at[smallest];
+sum_turnaround=sum_turnaround+completiont-at[smallest];
+}
+}
+printf("\naveradge waiting time is %f",sum_wait/n);
+printf("\naveradge Turnaround time is %f",sum_turnaround/n);
+}
+
+ROUND ROBIN
+#include<stdio.h>
+void main()
+{
+int at[10],bt[10],rt[10],ct=0,i,quantum,counter,n;
+float sum_wait,sum_turnaround;
+printf("\n Enter the number of processes=");
+scanf("%d",&n);
+counter=n;
+for(i=0;i<n;i++)
+{
+printf("Enter the arrival time for P%d=",i+1);
+scanf("%d",&at[i]);
+printf("Enter the burst time for P%d=",i+1);
+scanf("%d",&bt[i]);
+rt[i]=bt[i];
+}
+printf("\nEnter the time quantum=");
+scanf("%d",&quantum);
+printf("Given snapshot of execution is");
+printf("\nProcess|Arrival|Burst");
+for(i=0;i<n;i++)
+{
+printf("\nP[%d]|\t %d|\t %d",i+1,at[i],bt[i]);
+}
+printf("\n\nProcess|Burst|TA Time|Wait_Time");
+for(ct=0,i=0;counter!=0;)
+{
+if(rt[i]<=quantum && rt[i]>0)
+{
+ct=ct+rt[i];
+rt[i]=0;
+counter--;
+printf("\nP[%d]|\t%d|\t%d|\t %d",i+1,bt[i],ct-at[i],ct-at[i]-bt[i]);
+sum_wait=sum_wait+ct-at[i]-bt[i];
+sum_turnaround=sum_turnaround+ct-at[i];
+}
+else if(rt[i]>0)
+{
+rt[i]=rt[i]-quantum;
+ct=ct+quantum;
+}
+if(i==n-1)
+{
+i=0;
+}
+else if(at[i+1]<=ct)
+{
+i++;
+}
+else
+{
+i=0;
+}
+ }
+printf("\naveradge waiting time is %f",sum_wait/n);
+printf("\naveradge Turnaround time is %f",sum_turnaround/n);
+}
